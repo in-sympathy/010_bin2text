@@ -1,0 +1,45 @@
+//------------------------------------------------
+//--- 010 Editor v16.0.4 Script File
+//
+//      File: Bin2Text
+//   Authors: ChatGPT
+//   Version: 0.1
+//   Purpose: Converting binary data to readable text
+//  Category: Binary
+//   History: 
+//------------------------------------------------
+string bin = ReadString(0, FileSize());
+string clean = "";
+string out = "";
+
+int i;
+int b;
+int value;
+char ch;
+
+// Remove spaces, newlines, tabs
+for (i = 0; i < Strlen(bin); i++)
+{
+    ch = bin[i];
+
+    if (ch == '0' || ch == '1')
+        clean += ch;
+}
+
+// Convert every 8 bits to one ASCII character
+for (i = 0; i + 7 < Strlen(clean); i += 8)
+{
+    value = 0;
+
+    for (b = 0; b < 8; b++)
+    {
+        value <<= 1;
+
+        if (clean[i + b] == '1')
+            value |= 1;
+    }
+
+    out += (char)value;
+}
+
+Printf("%s\n", out);
